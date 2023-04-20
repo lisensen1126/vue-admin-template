@@ -28,6 +28,12 @@ export default {
   methods: {
     linkProps(to) {
       if (this.isExternal) {
+        if (this.$store.state.app.sidebar.menuDisableValue === 1) {
+          return {
+            href: '#', // 禁止新开tab直接写个#  就是禁止打开的意思 也可以写跳到  dashboard页面
+            target: '_self'
+          }
+        }
         return {
           href: to,
           target: '_blank',

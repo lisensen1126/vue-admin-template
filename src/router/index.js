@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+import store from '../store/index'
 Vue.use(Router)
 
 /* Layout */
@@ -171,7 +171,21 @@ const createRouter = () => new Router({
 })
 
 const router = createRouter()
-
+router.beforeEach((to, from, next) => {
+  // console.log('to', to);
+  /* 必须调用 `next` */
+  console.log('全局store.state菜单禁用开关为', store.state.app.sidebar.menuDisableValue, `${store.state.app.sidebar.menuDisableValue === 2 ? '允许' : '禁止'}访问`)
+  if (store.state.app.sidebar.menuDisableValue === 2) {
+    next()
+  } else {
+    // 如果开关为关，并且访问的路由是dashboard 则继续 不是dashboard则强制访问dashboard  要不就会有空白页面
+    if (to.path === '/dashboard') {
+      next()
+    } else {
+      router.push('/dashboard')
+    }
+  }
+})
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
   const newRouter = createRouter()

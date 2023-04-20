@@ -3,7 +3,8 @@ import Cookies from 'js-cookie'
 const state = {
   sidebar: {
     opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
-    withoutAnimation: false
+    withoutAnimation: false,
+    menuDisableValue: 1
   },
   device: 'desktop'
 }
@@ -25,6 +26,9 @@ const mutations = {
   },
   TOGGLE_DEVICE: (state, device) => {
     state.device = device
+  },
+  switchMenuDisable: (state, value) => {
+    state.sidebar.menuDisableValue = value
   }
 }
 

@@ -3,7 +3,17 @@
     <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
     <breadcrumb class="breadcrumb-container" />
-
+    <div class="menuSwitch">
+      <el-switch
+        :value="$store.state.app.sidebar.menuDisableValue"
+        active-color="#13ce66"
+        inactive-color="#ff4949"
+        :active-value="2"
+        :inactive-value="1"
+        @change="(value)=>switchFun(value)"
+      />
+      <span style="padding-left: 6px;">{{ $store.state.app.sidebar.menuDisableValue===1?'关':'开' }}</span>
+    </div>
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
@@ -54,6 +64,10 @@ export default {
     async logout() {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    },
+    switchFun(value) {
+      console.log('value: ', value)
+      this.$store.commit('app/switchMenuDisable', value)
     }
   }
 }
@@ -66,7 +80,12 @@ export default {
   position: relative;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0,21,41,.08);
-
+  .menuSwitch{
+    display: flex;
+    align-items: center;
+    padding-left: 150px;
+    height: 50px;
+  }
   .hamburger-container {
     line-height: 46px;
     height: 100%;
